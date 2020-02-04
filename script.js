@@ -40,16 +40,9 @@ app.get('/', (req, res) => {
 })
 
 app.post('/signin', (req, res) => {
-  bcrypt.compare('apples', '$2a$10$Y7Oslw/7j.cdF4tmSB6drutcvmo/sA74pQ4etGF9d4NFTaLxvhGbi', function (err, res) {
-    console.log('first guess', res)
-  });
-  bcrypt.compare('veggies', '$2a$10$Y7Oslw/7j.cdF4tmSB6drutcvmo/sA74pQ4etGF9d4NFTaLxvhGbi', function (err, res) {
-    console.log('second guess', res)
-  });
-
   if (req.body.email === database.users[0].email &&
     req.body.password === database.users[0].password) {
-    res.json('success');
+    res.json(database.users[0]);
   } else {
     res.status(400).json('errror logging in');
   }
@@ -61,7 +54,6 @@ app.post('/register', (req, res) => {
     id: '125',
     name: name,
     email: email,
-    password: password,
     entries: 0,
     joined: new Date()
   })
@@ -78,7 +70,7 @@ app.get('/profile/:id', (req, res) => {
     }
   })
   if (!found) {
-    res.status(400).json('not found');
+    res.status(400).json('not found profile');
   }
 })
 
@@ -93,10 +85,10 @@ app.put('/image', (req, res) => {
     }
   })
   if (!found) {
-    res.status(400).json('not found');
+    res.status(400).json('not found img');
   }
 })
 
-app.listen(3001, () => {
-  console.log("App is running on port 3001");
+app.listen(3000, () => {
+  console.log("App is running on port 3000");
 })
